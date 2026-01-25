@@ -2,8 +2,10 @@
 class Plant:
     def __init__(self, name, height, age):
         self.name = name
-        self.__height = height
-        self.__age = age
+        self.__height = 0
+        self.__age = 0
+        self.set_height(self, height)
+        self.set_age(self, age)
         print(f"Plant Created: {self.name}")
 
     def set_height(self, height):
