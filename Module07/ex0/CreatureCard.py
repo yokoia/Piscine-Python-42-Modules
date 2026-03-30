@@ -7,6 +7,7 @@ class CreatureCard(Card):
                  attack: int, health: int) -> None:
         super().__init__(name, cost, rarity)
         self.validation_a_h(attack, health)
+        self.type = "Creature"
 
     def validation_a_h(self, a, h) -> None:
         if not isinstance(a, int) or a <= 0:
@@ -20,36 +21,37 @@ class CreatureCard(Card):
         return {"name": self.name,
                 "cost": self.cost,
                 "rarity": self.rarity,
+                "type": self.type,
                 "attack": self.attack,
                 "health": self.health
                 }
 
     def play(self, game_state: dict) -> dict:
-        if (not self.is_playable(game_state["mana_left"])):
+        try:
+            if (not self.is_playable(game_state['mana_left'])):
+                return ({
+                    "card_played": None,
+                    "mana_used": 0,
+                    "effect": None
+                })
+            game_state['mana_left'] = game_state['mana_left'] - self.cost
             return ({
-                "card_played": None,
-                "mana_used": 0,
-                "effect": None
+                "card_played": self.name,
+                "mana_used": self.cost,
+                "effect": "Creature summoned to battlefield"
             })
-        self.attack_target(game_state["target"])
-        return ({
-            "card_played": self.name,
-            "mana_used": self.cost,
-            "effect": "Creature summoned to battlefield"
-        })
+        except Exception as e:
+            return {"Error": e}
 
     def attack_target(self, target) -> dict:
         # damage dealt: the amount of damage i caused to the enemy
-        try:
-            if (self.health <= 0 or target.health <= 0):
-                return {
-                    "attacker": self.name,
-                    "target": target.name,
-                    "damage_dealt": 0,
-                    "combat_resolved": False
+        if (self.health <= 0 or target.health <= 0):
+            return {
+                "attacker": self.name,
+                "target": target.name,
+                "damage_dealt": 0,
+                "combat_resolved": False
                 }
-        except KeyError:
-            return {"target": "Not a valid target"}
         if target.health < self.attack:
             actual_damage = target.health  # store the real damage
             target.health = 0
@@ -67,4 +69,3 @@ class CreatureCard(Card):
                         "damage_dealt": self.attack,
                         "combat_resolved": True
                     }
-
