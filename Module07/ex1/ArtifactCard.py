@@ -1,6 +1,5 @@
 
-from ex0.Card import Card, CardType
-from ex0.CreatureCard import CreatureCard
+from ex0.Card import Card
 
 
 class ArtifactCard(Card):
@@ -9,6 +8,7 @@ class ArtifactCard(Card):
         super().__init__(name, cost, rarity)
         self.durability = durability
         self.effect = effect
+        self.type = "Artifact"
 
     def play(self, game_state: dict) -> dict:
         out = {

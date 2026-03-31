@@ -17,7 +17,7 @@ class SpellCard(Card):
                  effect_type: EffectType) -> None:
         super().__init__(name, cost, rarity)
         self.effect_type = effect_type
-        self.type = CardType.SPELL
+        self.type = CardType.SPELL.value
 
     def play(self, game_state: dict) -> Dict:
         out = {
