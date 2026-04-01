@@ -1,6 +1,8 @@
 
+from .GameStrategy import GameStrategy
 
-class AggressiveStrategy:
+
+class AggressiveStrategy(GameStrategy):
     def execute_turn(self, hand: list, battlefield: list) -> dict:
 
     def get_strategy_name(self) -> str:

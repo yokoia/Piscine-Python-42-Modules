@@ -10,7 +10,7 @@ if (__name__ == "__main__"):
     print("- Combatable: ['attack', 'defend', 'get_combat_stats']")
     print("- Magical: ['cast_spell', 'channel_mana', 'get_magic_stats']\n")
 
-    elite = EliteCard("Arcane Warrior")
+    elite = EliteCard("Arcane Warrior", 5)
     print("Playing Arcane Warrior (Elite Card):\n")
     print("Combat phase:")
     print("Attack result:", elite.play({"phase": "combat"}))

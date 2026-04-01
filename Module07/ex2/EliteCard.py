@@ -5,9 +5,9 @@ from ex0.Card import Card
 
 
 class EliteCard(Card, Combatable, Magical):
-    def __init__(self, name) -> None:
+    def __init__(self, name, attack) -> None:
         Card.__init__(self, name, 6, "Epic")
-        Combatable.__init__(self, 5)
+        self.damage = attack
         self.mana = 8
         self.health = 10
 

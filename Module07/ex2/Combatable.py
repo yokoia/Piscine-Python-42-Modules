@@ -3,8 +3,6 @@ from abc import ABC, abstractmethod
 
 
 class Combatable(ABC):
-    def __init__(self, attack):
-        self.damage = attack
 
     @abstractmethod
     def attack(self, target) -> dict:
