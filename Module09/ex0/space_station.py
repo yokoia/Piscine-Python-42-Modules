@@ -50,11 +50,11 @@ def main() -> None:
                                notes="International Space Station has been "
                                "created"
                                )
-    except ValidationError:
+    except ValidationError as e:
         print("Expected validation error:")
-        print("Input should be less than or equal to 20")
+        for err in e.errors():
+            print(err["msg"])
 
 
-
-
+#  name== maiiiiiiiiiiin
 main()
