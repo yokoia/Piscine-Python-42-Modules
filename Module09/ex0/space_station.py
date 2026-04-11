@@ -22,10 +22,10 @@ def main() -> None:
         print("========================================")
         station = SpaceStation(station_id="ISS001",
                                name="International Space Station",
-                               crew_size="6",
+                               crew_size=6,
                                power_level=85.5,
                                oxygen_level=92.3,
-                               last_maintenance="2024-04-09T12:00:00",
+                               last_maintenance=datetime.now(),
                                notes="International Space Station has been "
                                "created"
                                )
@@ -46,7 +46,7 @@ def main() -> None:
                                crew_size=22,
                                power_level=85.5,
                                oxygen_level=92.3,
-                               last_maintenance="2024-04-09T12:00:00",
+                               last_maintenance=datetime.now(),
                                notes="International Space Station has been "
                                "created"
                                )
@@ -56,5 +56,5 @@ def main() -> None:
             print(err["msg"])
 
 
-#  name== maiiiiiiiiiiin
-main()
+if __name__ == "__main__":
+    main()

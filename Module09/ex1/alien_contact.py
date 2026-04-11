@@ -1,9 +1,9 @@
 
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ValidationError
 from datetime import datetime
 from enum import Enum
-from typing import Optional
+from typing import Optional, Self
 
 
 class ContactType(Enum):
@@ -26,7 +26,7 @@ class AlienContact(BaseModel):
     is_verified: bool = Field(default=False)
 
     @model_validator(mode="after")
-    def validator(self):
+    def business_rules(self) -> Self:
         if not self.contact_id.startswith("AC"):
             raise ValueError("Must start with AC")
         if self.contact_type == ContactType.PHYSICAL and not self.is_verified:
@@ -41,43 +41,47 @@ class AlienContact(BaseModel):
         return self
 
 
-# name== maaaaaaain
-try:
-    print("Alien Contact Log Validation")
-    print("======================================")
-    print("Valid contact report:")
+def main() -> None:
+    try:
+        print("Alien Contact Log Validation")
+        print("======================================")
+        print("Valid contact report:")
 
-    contact = AlienContact(
-            contact_id="AC_2024_001",
-            timestamp=datetime.now(),
-            location="Area 51, Nevada",
-            contact_type=ContactType.RADIO,
-            signal_strength=8.5,
-            duration_minutes=45,
-            witness_count=5,
-            message_received="Greetings from Zeta Reticuli"
-            )
+        contact = AlienContact(
+                contact_id="AC_2024_001",
+                timestamp=datetime.now(),
+                location="Area 51, Nevada",
+                contact_type=ContactType.RADIO,
+                signal_strength=8.5,
+                duration_minutes=45,
+                witness_count=5,
+                message_received="Greetings from Zeta Reticuli"
+                )
 
-    print("ID:", contact.contact_id)
-    print("Type:", contact.contact_type.value)
-    print(f"Location: {contact.location}")
-    print(f"Signal: {contact.signal_strength}/10")
-    print(f"Duration: {contact.duration_minutes} minutes")
-    print(f"Witnesses: {contact.witness_count}")
-    print(f"Message: '{contact.message_received}'")
+        print("ID:", contact.contact_id)
+        print("Type:", contact.contact_type.value)
+        print(f"Location: {contact.location}")
+        print(f"Signal: {contact.signal_strength}/10")
+        print(f"Duration: {contact.duration_minutes} minutes")
+        print(f"Witnesses: {contact.witness_count}")
+        print(f"Message: '{contact.message_received}'")
 
-    print("\n======================================")
-    contact = AlienContact(
-            contact_id="AC_2024_001",
-            timestamp=datetime.now(),
-            location="Area 51, Nevada",
-            contact_type=ContactType.TELEPATHIC,
-            signal_strength=8.5,
-            duration_minutes=45,
-            witness_count=2,
-            message_received="Greetings from Zeta Reticuli"
-            )
-except ValueError as e:
-    print("Expected validation error:")
-    for err in e.errors():
-        print(err["msg"])
+        print("\n======================================")
+        contact = AlienContact(
+                contact_id="AC_2024_001",
+                timestamp=datetime.now(),
+                location="Area 51, Nevada",
+                contact_type=ContactType.TELEPATHIC,
+                signal_strength=8.5,
+                duration_minutes=45,
+                witness_count=2,
+                message_received="Greetings from Zeta Reticuli"
+                )
+    except ValidationError as e:
+        print("Expected validation error:")
+        for err in e.errors():
+            print(err["msg"])
+
+
+if __name__ == "__main__":
+    main()
