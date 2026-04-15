@@ -77,4 +77,5 @@ def main() -> None:
     print(f"Recall: 'secret': {recall}")
 
 
-main()
+if __name__ == "__main__":
+    main()
